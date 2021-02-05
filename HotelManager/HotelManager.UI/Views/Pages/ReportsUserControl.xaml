@@ -1,0 +1,122 @@
+﻿<UserControl
+    x:Class="HotelManager.UI.Views.Pages.ReportsUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:HotelManager.UI.Views.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mdix="http://materialdesigninxaml.net/winfx/xaml/themes"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    DataContext="{Binding Source={StaticResource Locator}, Path=MainWindow}"
+    mc:Ignorable="d">
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Margin="50" HorizontalAlignment="Center">
+
+            <TextBlock
+                Margin="0,0,0,20"
+                VerticalAlignment="Center"
+                FontWeight="Light"
+                Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                Text="Отправить отчет"/>
+
+            <TextBox
+                Width="300"
+                Height="75"
+                Margin="0,0,0,20"
+                VerticalContentAlignment="Center"
+                mdix:HintAssist.Hint="Название отчета"
+                mdix:TextFieldAssist.SuffixText=".json"
+                FontSize="18"
+                Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"
+                Text="{Binding ReportName, Mode=TwoWay}"/>
+
+            <Grid Width="300">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <DatePicker
+                    mdix:HintAssist.Hint="От"
+                    DisplayDateEnd="{Binding TodayDate, Mode=OneWay}"
+                    IsTodayHighlighted="True"
+                    SelectedDate="{Binding SelectedDateFrom, Mode=TwoWay}"
+                    Style="{StaticResource MaterialDesignFilledDatePicker}"/>
+                <mdix:PackIcon
+                    Grid.Column="1"
+                    Width="30"
+                    VerticalAlignment="Center"
+                    Kind="HorizontalLine"/>
+                <DatePicker
+                    Grid.Column="2"
+                    mdix:HintAssist.Hint="До"
+                    DisplayDateEnd="{Binding TodayDate, Mode=OneWay}"
+                    IsTodayHighlighted="True"
+                    SelectedDate="{Binding SelectedDateTo, Mode=TwoWay}"
+                    Style="{StaticResource MaterialDesignFilledDatePicker}"/>
+            </Grid>
+
+            <Button
+                Width="300"
+                Height="50"
+                Margin="0,20,0,0"
+                HorizontalAlignment="Left"
+                Command="{Binding SendTestReportCommand}"
+                Content="Отправить отчет"/>
+
+        </StackPanel>
+
+        <StackPanel
+            Grid.Column="1"
+            Margin="50"
+            HorizontalAlignment="Center">
+
+            <TextBlock
+                Margin="0,0,0,20"
+                VerticalAlignment="Center"
+                FontWeight="Light"
+                Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                Text="Выдать счет"/>
+
+            <ComboBox
+                MinWidth="300"
+                Margin="0,0,10,10"
+                HorizontalAlignment="Left"
+                VerticalContentAlignment="Center"
+                FontSize="18"
+                ItemsSource="{Binding ClientsPageViewModel.Clients}"
+                SelectedItem="{Binding SelectedClient, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} {1} {2}">
+                                    <Binding Path="Surname"/>
+                                    <Binding Path="Name"/>
+                                    <Binding Path="Patronymic"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Button
+                Width="300"
+                Height="50"
+                Margin="0,20,0,0"
+                HorizontalAlignment="Left"
+                Command="{Binding CreateCheckCommand}"
+                CommandParameter="{Binding SelectedClient}"
+                Content="Создать счет"/>
+
+        </StackPanel>
+    </Grid>
+</UserControl>

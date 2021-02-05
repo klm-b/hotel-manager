@@ -1,0 +1,46 @@
+﻿<UserControl
+    x:Class="HotelManager.UI.Views.Pages.WeeklySchedulesUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:HotelManager.UI.Views.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    DataContext="{Binding Source={StaticResource Locator}, Path=MainWindow.WeeklySchedulesPageViewModel}"
+    mc:Ignorable="d">
+    <Grid>
+        <DataGrid
+            AutoGenerateColumns="False"
+            CanUserResizeColumns="False"
+            IsReadOnly="True"
+            ItemsSource="{Binding WeeklySchedules}"
+            SelectionMode="Single"
+            SelectionUnit="FullRow">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="Auto"
+                    Binding="{Binding Id}"
+                    Header="ID"/>
+                <DataGridTextColumn Header="Работник">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding StringFormat="{}{0} {1} {2}">
+                            <Binding Path="Worker.Surname"/>
+                            <Binding Path="Worker.Name"/>
+                            <Binding Path="Worker.Patronymic"/>
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Worker.PassportNumber}" Header="Паспорт работника"/>
+                <DataGridTextColumn Binding="{Binding Worker.PhoneNumber}" Header="Номер телефона"/>
+                <DataGridTextColumn Binding="{Binding Monday, TargetNullValue=-}" Header="Понедельник"/>
+                <DataGridTextColumn Binding="{Binding Tuesday, TargetNullValue=-}" Header="Вторник"/>
+                <DataGridTextColumn Binding="{Binding Wednesday, TargetNullValue=-}" Header="Среда"/>
+                <DataGridTextColumn Binding="{Binding Thursday, TargetNullValue=-}" Header="Четверг"/>
+                <DataGridTextColumn Binding="{Binding Friday, TargetNullValue=-}" Header="Пятница"/>
+                <DataGridTextColumn Binding="{Binding Saturday, TargetNullValue=-}" Header="Суббота"/>
+                <DataGridTextColumn Binding="{Binding Sunday, TargetNullValue=-}" Header="Воскресенье"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

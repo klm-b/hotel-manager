@@ -1,0 +1,211 @@
+﻿<UserControl
+    x:Class="HotelManager.UI.Views.Pages.MainUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:HotelManager.UI.Views.Pages"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mdix="http://materialdesigninxaml.net/winfx/xaml/themes"
+    d:DesignHeight="600"
+    d:DesignWidth="1100"
+    DataContext="{Binding Source={StaticResource Locator}, Path=MainWindow}"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="LargeTileStyle" TargetType="mah:Tile">
+                <Setter Property="Height" Value="125"/>
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="TitleFontSize" Value="14"/>
+                <Setter Property="Width" Value="300"/>
+            </Style>
+
+            <Style x:Key="SmallTileStyle" TargetType="mah:Tile">
+                <Setter Property="Height" Value="125"/>
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="TitleFontSize" Value="10"/>
+                <Setter Property="Width" Value="147"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
+    <Grid
+        Margin="50"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75*"/>
+            <RowDefinition Height="260*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Margin="0,0,0,20"
+            VerticalAlignment="Center"
+            Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+            Text="{Binding Hotel.Name, StringFormat={}Отель «{0}»}"/>
+
+        <ScrollViewer
+            Grid.Row="1"
+            HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Auto">
+            <WrapPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+                <mah:Tile
+                    Title="Персоны"
+                    Background="#673AB7"
+                    Command="{Binding ShowPageCommand}"
+                    CommandParameter="3"
+                    Count="{Binding PersonsPageViewModel.Persons.Count}"
+                    CountFontSize="42"
+                    HorizontalTitleAlignment="Center"
+                    Style="{StaticResource SmallTileStyle}"
+                    TitleFontSize="20"
+                    VerticalTitleAlignment="Bottom"/>
+
+                <mah:Tile
+                    Title="Клиенты"
+                    Background="#00BCD3"
+                    Command="{Binding ShowPageCommand}"
+                    CommandParameter="4"
+                    Count="{Binding ClientsPageViewModel.Clients.Count}"
+                    CountFontSize="42"
+                    HorizontalTitleAlignment="Center"
+                    Style="{StaticResource SmallTileStyle}"
+                    TitleFontSize="20"
+                    VerticalTitleAlignment="Bottom"/>
+
+                <mah:Tile
+                    Title="Работники"
+                    Background="#FEC007"
+                    Command="{Binding ShowPageCommand}"
+                    CommandParameter="5"
+                    Count="{Binding WorkersPageViewModel.Workers.Count}"
+                    CountFontSize="42"
+                    HorizontalTitleAlignment="Center"
+                    Style="{StaticResource SmallTileStyle}"
+                    TitleFontSize="20"
+                    VerticalTitleAlignment="Bottom"/>
+
+
+                <mah:Tile
+                    Title="Номера"
+                    Background="#4CAF50"
+                    Command="{Binding ShowPageCommand}"
+                    CommandParameter="7"
+                    Count="{Binding HotelRoomsPageViewModel.HotelRooms.Count}"
+                    CountFontSize="42"
+                    HorizontalTitleAlignment="Center"
+                    Style="{StaticResource SmallTileStyle}"
+                    TitleFontSize="20"
+                    VerticalTitleAlignment="Bottom"/>
+
+                <mah:Tile
+                    Title="Факты проживания"
+                    Background="#FE9800"
+                    Command="{Binding ShowPageCommand}"
+                    CommandParameter="6"
+                    Style="{StaticResource LargeTileStyle}">
+                    <mdix:PackIcon
+                        Width="40"
+                        Height="40"
+                        Kind="HomeAnalytics"/>
+                </mah:Tile>
+                <mah:Tile
+                    Title="Поиск персон"
+                    Background="#FE5722"
+                    Command="{Binding ShowPageCommand}"
+                    CommandParameter="3"
+                    HorizontalTitleAlignment="Left"
+                    Style="{StaticResource LargeTileStyle}">
+                    <mdix:PackIcon
+                        Width="40"
+                        Height="40"
+                        Kind="Search"/>
+                </mah:Tile>
+                <mah:Tile
+                    Title="Выселить"
+                    Background="#E81E63"
+                    CountFontSize="42"
+                    HorizontalTitleAlignment="Center"
+                    Style="{StaticResource SmallTileStyle}"
+                    TitleFontSize="20"
+                    VerticalTitleAlignment="Bottom">
+                    <mdix:PackIcon
+                        Width="40"
+                        Height="40"
+                        Kind="MinusBox"/>
+                </mah:Tile>
+                <mah:Tile
+                    Title="Заселить"
+                    Background="#2196F2"
+                    CountFontSize="42"
+                    HorizontalTitleAlignment="Center"
+                    Style="{StaticResource SmallTileStyle}"
+                    TitleFontSize="20">
+                    <mdix:PackIcon
+                        Width="40"
+                        Height="40"
+                        Kind="AddBox"/>
+                </mah:Tile>
+
+                <mah:Tile
+                    Title="Расписание уборки"
+                    Background="#3F51B5"
+                    Command="{Binding ShowPageCommand}"
+                    CommandParameter="8"
+                    HorizontalTitleAlignment="Left"
+                    Style="{StaticResource LargeTileStyle}">
+                    <mdix:PackIcon
+                        Width="40"
+                        Height="40"
+                        Kind="Cleaning"/>
+                </mah:Tile>
+                <mah:Tile
+                    Title="Настройки"
+                    Background="#00BCD3"
+                    Command="{Binding ShowOptionsPageCommand}"
+                    CommandParameter="1"
+                    Style="{StaticResource LargeTileStyle}">
+                    <mdix:PackIcon
+                        Width="40"
+                        Height="40"
+                        Kind="Settings"/>
+                </mah:Tile>
+                <mah:Tile
+                    Title="Отчеты"
+                    Background="#F34336"
+                    Command="{Binding ShowPageCommand}"
+                    CommandParameter="10"
+                    HorizontalTitleAlignment="Left"
+                    Style="{StaticResource LargeTileStyle}">
+                    <mdix:PackIcon
+                        Width="40"
+                        Height="40"
+                        Kind="DatabaseSync"/>
+                </mah:Tile>
+
+                <mah:Tile
+                    Title="Сохранить и выйти"
+                    Background="#E81E63"
+                    Command="{Binding WindowClosing, Mode=OneWay}"
+                    HorizontalTitleAlignment="Right"
+                    Style="{StaticResource LargeTileStyle}">
+                    <mdix:PackIcon
+                        Width="40"
+                        Height="40"
+                        Kind="ExitRun"/>
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:CallMethodAction MethodName="Close" TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </mah:Tile>
+            </WrapPanel>
+        </ScrollViewer>
+    </Grid>
+
+</UserControl>

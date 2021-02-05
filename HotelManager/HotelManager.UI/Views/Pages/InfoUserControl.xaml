@@ -1,0 +1,201 @@
+﻿<UserControl
+    x:Class="HotelManager.UI.Views.Pages.InfoUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:HotelManager.UI.Views.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mdix="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:styles="clr-namespace:HotelManager.UI.Styles"
+    d:DesignHeight="620"
+    d:DesignWidth="1200"
+    DataContext="{Binding Source={StaticResource Locator}, Path=MainWindow.InfoPageViewModel}"
+    mc:Ignorable="d">
+    <Grid ClipToBounds="True">
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Ellipse Grid.RowSpan="2" Margin="-200,-300,-100,280">
+            <Ellipse.Fill>
+                <ImageBrush ImageSource="/HotelManager.UI;component/Resources/Images/Emirates Palace.jpg" Stretch="UniformToFill"/>
+            </Ellipse.Fill>
+        </Ellipse>
+
+
+        <Viewbox Grid.Row="0" Margin="100">
+            <StackPanel
+                Width="830"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <mdix:PackIcon
+                    Width="120"
+                    Height="120"
+                    Foreground="#2196F2"
+                    Kind="Hotel">
+                    <mdix:PackIcon.Effect>
+                        <DropShadowEffect/>
+                    </mdix:PackIcon.Effect>
+                </mdix:PackIcon>
+
+
+                <TextBlock
+                    Margin="30,0,0,0"
+                    VerticalAlignment="Center"
+                    FontFamily="/HotelManager.UI;component/Resources/Fonts/#LazyType beta"
+                    FontSize="94"
+                    FontWeight="Bold"
+                    Foreground="#2196F2"
+                    Text="HotelManager">
+
+                    <TextBlock.Effect>
+                        <DropShadowEffect/>
+                    </TextBlock.Effect>
+                </TextBlock>
+
+                <TextBlock
+                    Margin="-25,5,0,0"
+                    FontFamily="/HotelManager;component/Resources/Fonts/#LazyType beta"
+                    FontSize="26"
+                    FontWeight="Bold"
+                    Foreground="#E81E63"
+                    RenderTransformOrigin="1,1"
+                    Text="version 1.0">
+                    <TextBlock.Effect>
+                        <DropShadowEffect/>
+                    </TextBlock.Effect>
+                    <TextBlock.RenderTransform>
+                        <TransformGroup>
+                            <RotateTransform Angle="-35"/>
+                        </TransformGroup>
+                    </TextBlock.RenderTransform>
+                </TextBlock>
+
+
+            </StackPanel>
+        </Viewbox>
+
+        <StackPanel Grid.Row="1">
+            <StackPanel
+                Margin="20,10,0,10"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+
+                <Viewbox Margin="0,0,30,0" HorizontalAlignment="Left">
+                    <Canvas Width="100" Height="100">
+                        <Path Data="M94.182,22.436H36.928l28.627,49.584    l15.792-27.352l-3.473-4.149l8.456-4.481L94.182,22.436z M65.641,54.497l-5.345-9.258h10.69L65.641,54.497z M76.196,36.133H55.085    l-2.773-4.803h26.657L76.196,36.133z" Fill="#2196F2"/>
+                        <Path Data="M42.251,58.641 37.667,60     55.126,90.082 49.999,98.957 5.818,22.441 16.053,22.441 31.433,49.261 33.084,42.891 21.432,22.441 31.686,22.441 42.794,41.687     40.406,49.863 46.717,48.484 62.933,76.566 57.767,85.499" Fill="#2196F2"/>
+                        <Path Data="M82.325,67.254 71.377,73.692    62.865,88.621 90.894,72.14 90.8,39.624 82.289,54.553" Fill="#2196F2"/>
+                        <Path Data="M17.594,66.849 17.643,54.149    9.146,39.211 9.02,71.727 37.033,88.236 28.536,73.298" Fill="#2196F2"/>
+                        <Path Data="M50.019,10.907 61.034,17.229   78.22,17.229 50.019,1.043 21.818,17.229 39.003,17.229" Fill="#2196F2"/>
+                    </Canvas>
+                </Viewbox>
+
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontWeight="Bold"
+                    Style="{StaticResource MaterialDesignHeadline2TextBlock}"
+                    Text="Клименков Богдан"/>
+                <mdix:PackIcon
+                    Width="50"
+                    Height="50"
+                    VerticalAlignment="Center"
+                    Kind="MenuRight"/>
+                <Button
+                    Width="40"
+                    Height="40"
+                    VerticalAlignment="Center"
+                    Command="{Binding OpenLinkInBrowserCommand}"
+                    CommandParameter="https://t.me/klm_b"
+                    Style="{StaticResource MaterialDesignFloatingActionButton}">
+                    <mdix:PackIcon Kind="Telegram"/>
+                </Button>
+                <Button
+                    Width="40"
+                    Height="40"
+                    Margin="5,0,0,0"
+                    VerticalAlignment="Center"
+                    Command="{Binding OpenLinkInBrowserCommand}"
+                    CommandParameter="https://vk.com/klm_b"
+                    Style="{StaticResource MaterialDesignFloatingActionButton}">
+                    <mdix:PackIcon Kind="Vk"/>
+                </Button>
+                <Button
+                    Width="40"
+                    Height="40"
+                    Margin="5,0,0,0"
+                    VerticalAlignment="Center"
+                    Command="{Binding OpenLinkInBrowserCommand}"
+                    CommandParameter="mailto:klm_b@outlook.com"
+                    Style="{StaticResource MaterialDesignFloatingActionButton}">
+                    <mdix:PackIcon Kind="MicrosoftOutlook"/>
+                </Button>
+            </StackPanel>
+
+            <Separator Width="700"/>
+
+            <StackPanel Margin="20,10,0,0" Orientation="Horizontal">
+                <mdix:PackIcon
+                    Width="40"
+                    Height="40"
+                    VerticalAlignment="Center"
+                    Kind="InfoCircleOutline"/>
+                <TextBlock
+                    Margin="10,0,0,0"
+                    FontSize="28"
+                    Style="{StaticResource MaterialDesignHeadline4TextBlock}">
+                    <Run>Курсовая работа по курсу</Run>
+                    <Run FontWeight="Bold">«Платформа .NET Framework»</Run>
+                </TextBlock>
+            </StackPanel>
+
+            <StackPanel Margin="20,10,0,0" Orientation="Horizontal">
+                <mdix:PackIcon
+                    Width="40"
+                    Height="40"
+                    VerticalAlignment="Center"
+                    Kind="PeopleGroup"/>
+                <TextBlock
+                    Margin="10,0,0,0"
+                    FontSize="28"
+                    Style="{StaticResource MaterialDesignHeadline4TextBlock}">
+                    <Run>Группа</Run>
+                    <Run FontWeight="Bold">«ПД811»</Run>
+                </TextBlock>
+            </StackPanel>
+
+            <StackPanel Margin="20,10,0,10" Orientation="Horizontal">
+
+                <mdix:PackIcon
+                    Width="40"
+                    Height="40"
+                    VerticalAlignment="Center"
+                    Kind="WebClock"/>
+                <TextBlock
+                    Margin="10,0,0,0"
+                    FontSize="28"
+                    FontWeight="Bold"
+                    Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                    Text="1 июля 2020 года"/>
+
+            </StackPanel>
+        </StackPanel>
+
+
+        <Button
+            Grid.Row="1"
+            Width="170"
+            Height="50"
+            Margin="0,0,20,20"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Command="{x:Static styles:MaterialDesignWindow.Close}"
+            Content="Выход"
+            Style="{StaticResource MaterialDesignOutlinedButton}"/>
+
+    </Grid>
+</UserControl>

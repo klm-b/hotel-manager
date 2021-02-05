@@ -1,0 +1,128 @@
+﻿<UserControl
+    x:Class="HotelManager.UI.Views.Dialogs.CheckDialogUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:HotelManager.UI.Views.Dialogs"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mdix="http://materialdesigninxaml.net/winfx/xaml/themes"
+    d:DesignHeight="600"
+    d:DesignWidth="600"
+    mc:Ignorable="d">
+    <Grid Width="600" Height="470">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="64"/>
+        </Grid.RowDefinitions>
+
+        <mdix:ColorZone Padding="6" Mode="Accent">
+            <StackPanel Orientation="Horizontal">
+                <Button
+                    HorizontalAlignment="Left"
+                    Command="{x:Static mdix:DialogHost.CloseDialogCommand}"
+                    Style="{StaticResource MaterialDesignToolForegroundButton}">
+                    <mdix:PackIcon HorizontalAlignment="Right" Kind="ArrowLeft"/>
+                </Button>
+
+                <TextBlock
+                    Margin="8,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="ЧЕК"/>
+            </StackPanel>
+        </mdix:ColorZone>
+
+        <mdix:Card Grid.Row="1" Margin="15">
+            <FlowDocumentScrollViewer>
+                <FlowDocument x:Name="CheckFlowDocument">
+                    <Paragraph>
+                        <InlineUIContainer>
+                            <Viewbox
+                                Width="70"
+                                Height="70"
+                                Margin="0,0,20,0">
+                                <Canvas Width="100" Height="100">
+                                    <Path Data="M94.182,22.436H36.928l28.627,49.584    l15.792-27.352l-3.473-4.149l8.456-4.481L94.182,22.436z M65.641,54.497l-5.345-9.258h10.69L65.641,54.497z M76.196,36.133H55.085    l-2.773-4.803h26.657L76.196,36.133z" Fill="Black"/>
+                                    <Path Data="M42.251,58.641 37.667,60     55.126,90.082 49.999,98.957 5.818,22.441 16.053,22.441 31.433,49.261 33.084,42.891 21.432,22.441 31.686,22.441 42.794,41.687     40.406,49.863 46.717,48.484 62.933,76.566 57.767,85.499" Fill="Black"/>
+                                    <Path Data="M82.325,67.254 71.377,73.692    62.865,88.621 90.894,72.14 90.8,39.624 82.289,54.553" Fill="Black"/>
+                                    <Path Data="M17.594,66.849 17.643,54.149    9.146,39.211 9.02,71.727 37.033,88.236 28.536,73.298" Fill="Black"/>
+                                    <Path Data="M50.019,10.907 61.034,17.229   78.22,17.229 50.019,1.043 21.818,17.229 39.003,17.229" Fill="Black"/>
+                                </Canvas>
+                            </Viewbox>
+                        </InlineUIContainer>
+                        <Label
+                            VerticalContentAlignment="Center"
+                            Content="{Binding Hotel.Name}"
+                            FontSize="50"/>
+                    </Paragraph>
+                    <Paragraph FontSize="20">
+                        <Run FontWeight="Bold" Text="ФИО:"/>
+                        <Run Text="{Binding Residence.Client.Surname}"/>
+                        <Run Text="{Binding Residence.Client.Name}"/>
+                        <Run Text="{Binding Residence.Client.Patronymic}"/>
+                    </Paragraph>
+
+                    <Paragraph FontSize="20">
+                        <Run FontWeight="Bold" Text="ПАСПОРТ:"/>
+                        <Run Text="{Binding Residence.Client.PassportNumber}"/>
+                    </Paragraph>
+
+                    <Paragraph FontSize="20">
+                        <Run FontWeight="Bold" Text="ПРОЖИВАЛ: с"/>
+                        <Run Text="{Binding Residence.CheckInDate, StringFormat=d}"/>
+                        <Run FontWeight="Bold" Text="по"/>
+                        <Run Text="{Binding Residence.CheckOutDate, StringFormat=d}"/>
+                    </Paragraph>
+
+                    <Paragraph>
+                        <Separator
+                            Width="540"
+                            BorderBrush="Black"
+                            BorderThickness="2"/>
+                    </Paragraph>
+
+                    <Paragraph FontSize="24">
+                        <Run FontWeight="Bold" Text="К ОПЛАТЕ:"/>
+                        <Run Text="{Binding TotalCost, Mode=OneWay, StringFormat={}{0} рублей}"/>
+                    </Paragraph>
+                </FlowDocument>
+            </FlowDocumentScrollViewer>
+        </mdix:Card>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.Resources>
+                <Style BasedOn="{StaticResource MaterialDesignRaisedAccentButton}" TargetType="Button">
+                    <Setter Property="Margin" Value="10"/>
+                    <Setter Property="Height" Value="44"/>
+                    <Setter Property="mdix:ShadowAssist.ShadowDepth" Value="Depth3"/>
+                    <Setter Property="VerticalAlignment" Value="Top"/>
+                </Style>
+            </Grid.Resources>
+
+            <Button
+                Grid.Column="0"
+                Command="{Binding SaveCheckCommand}"
+                CommandParameter="{Binding ElementName=CheckFlowDocument}">
+                <StackPanel Orientation="Horizontal">
+                    <mdix:PackIcon VerticalAlignment="Center" Kind="ContentSave"/>
+                    <TextBlock Margin="5,0,0,0" Text="СОХРАНИТЬ"/>
+                </StackPanel>
+            </Button>
+
+            <Button
+                Grid.Column="1"
+                Command="{Binding PrintCheckCommand}"
+                CommandParameter="{Binding ElementName=CheckFlowDocument}">
+                <StackPanel Orientation="Horizontal">
+                    <mdix:PackIcon VerticalAlignment="Center" Kind="Printer"/>
+                    <TextBlock Margin="5,0,0,0" Text="ПЕЧАТЬ"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,296 @@
+﻿<Window
+    x:Class="HotelManager.UI.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="clr-namespace:HotelManager.UI.Behaviors"
+    xmlns:command="http://www.galasoft.ch/mvvmlight"
+    xmlns:converters="clr-namespace:HotelManager.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:local="clr-namespace:HotelManager.UI"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mdix="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:pages="clr-namespace:HotelManager.UI.Views.Pages"
+    xmlns:styles="clr-namespace:HotelManager.UI.Styles"
+    x:Name="RootWindow"
+    Title="{Binding Hotel.Name, StringFormat={}Отель «{0}»}"
+    Width="1250"
+    Height="720"
+    MinWidth="920"
+    MinHeight="720"
+    behaviors:WindowEx.ShowMaximizeButton="True"
+    behaviors:WindowEx.ShowMinimizeButton="True"
+    Background="{DynamicResource MaterialDesignPaper}"
+    DataContext="{Binding Source={StaticResource Locator}, Path=MainWindow}"
+    FontFamily="{DynamicResource MaterialDesignFont}"
+    Icon="Resources/Images/hotel.png"
+    Style="{StaticResource MaterialDesignWindow}"
+    TextElement.FontSize="13"
+    TextElement.FontWeight="Regular"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    TextOptions.TextFormattingMode="Ideal"
+    TextOptions.TextRenderingMode="Auto"
+    UseLayoutRounding="True"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <command:EventToCommand Command="{Binding WindowClosing}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Styles/RippleHamburgerMenu.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <styles:MaterialDesignWindow.HeaderContent>
+        <Grid>
+            <ToggleButton
+                x:Name="MenuToggleButton"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                WindowChrome.IsHitTestVisibleInChrome="True"/>
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"/>
+        </Grid>
+    </styles:MaterialDesignWindow.HeaderContent>
+
+    <Window.Content>
+        <!-- Диалог для вывода заданных UserControl'ов -->
+        <!-- Привязка UserControl к ViewModel находится внутри App.xaml -->
+        <mdix:DialogHost
+            Identifier="RootDialog"
+            IsOpen="{Binding IsRootDialogOpened, Mode=TwoWay}"
+            Style="{DynamicResource MaterialDesignEmbeddedDialogHost}">
+
+            <!-- Шаблон диалога для вывода данных -->
+            <!-- Передается определенная ViewModel, связанная со View в App.xaml -->
+            <mdix:DialogHost.DialogContentTemplate>
+                <DataTemplate>
+                    <ContentControl Content="{Binding}"/>
+                </DataTemplate>
+            </mdix:DialogHost.DialogContentTemplate>
+            <Grid>
+                <Grid.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.MergedDictionaries>
+                            <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/HamburgerMenu.xaml"/>
+                        </ResourceDictionary.MergedDictionaries>
+
+                        <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type mah:HamburgerMenuIconItem}">
+                            <Grid Height="48">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <ContentControl
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding Icon}"
+                                    Focusable="False"
+                                    IsTabStop="False"/>
+                                <TextBlock
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    FontSize="16"
+                                    Text="{Binding Label}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ResourceDictionary>
+                </Grid.Resources>
+
+                <mah:HamburgerMenu
+                    x:Name="HamburgerMenuControl"
+                    HamburgerVisibility="Collapsed"
+                    HamburgerWidth="48"
+                    IsPaneOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}"
+                    ItemClick="HamburgerMenuControl_OnItemClick"
+                    ItemTemplate="{StaticResource MenuItemTemplate}"
+                    OptionsItemClick="HamburgerMenuControl_OnItemClick"
+                    OptionsItemTemplate="{StaticResource MenuItemTemplate}"
+                    SelectedIndex="{Binding HamburgerMenuSelectedIndex, Mode=TwoWay}"
+                    SelectedOptionsIndex="{Binding HamburgerMenuSelectedOptionsIndex, Mode=TwoWay}"
+                    Style="{StaticResource MahApps.Styles.HamburgerMenu.Ripple}"
+                    VerticalScrollBarOnLeftSide="False">
+
+                    <mah:HamburgerMenu.ItemsSource>
+                        <mah:HamburgerMenuItemCollection>
+                            <mah:HamburgerMenuIconItem Label="Главная">
+                                <mah:HamburgerMenuIconItem.Icon>
+                                    <mdix:PackIcon Kind="Database"/>
+                                </mah:HamburgerMenuIconItem.Icon>
+
+                                <mah:HamburgerMenuIconItem.Tag>
+                                    <pages:MainUserControl/>
+                                </mah:HamburgerMenuIconItem.Tag>
+                            </mah:HamburgerMenuIconItem>
+
+                            <mah:HamburgerMenuSeparatorItem/>
+
+                            <mah:HamburgerMenuHeaderItem Label="Люди"/>
+
+                            <mah:HamburgerMenuIconItem Label="Все персоны">
+                                <mah:HamburgerMenuIconItem.Icon>
+                                    <mdix:PackIcon Kind="Person"/>
+                                </mah:HamburgerMenuIconItem.Icon>
+
+                                <mah:HamburgerMenuIconItem.Tag>
+                                    <pages:PersonsUserControl/>
+                                </mah:HamburgerMenuIconItem.Tag>
+                            </mah:HamburgerMenuIconItem>
+
+                            <mah:HamburgerMenuIconItem Label="Клиенты">
+                                <mah:HamburgerMenuIconItem.Icon>
+                                    <mdix:PackIcon Kind="PersonBadge"/>
+                                </mah:HamburgerMenuIconItem.Icon>
+
+                                <mah:HamburgerMenuIconItem.Tag>
+                                    <pages:ClientsUserControl/>
+                                </mah:HamburgerMenuIconItem.Tag>
+                            </mah:HamburgerMenuIconItem>
+
+                            <mah:HamburgerMenuIconItem Label="Работники">
+                                <mah:HamburgerMenuIconItem.Icon>
+                                    <mdix:PackIcon Kind="Cleaning"/>
+                                </mah:HamburgerMenuIconItem.Icon>
+
+                                <mah:HamburgerMenuIconItem.Tag>
+                                    <pages:WorkersUserControl/>
+                                </mah:HamburgerMenuIconItem.Tag>
+                            </mah:HamburgerMenuIconItem>
+
+                            <mah:HamburgerMenuIconItem Label="Факты проживания">
+                                <mah:HamburgerMenuIconItem.Icon>
+                                    <mdix:PackIcon Kind="Home"/>
+                                </mah:HamburgerMenuIconItem.Icon>
+
+                                <mah:HamburgerMenuIconItem.Tag>
+                                    <pages:ResidencesUserControl/>
+                                </mah:HamburgerMenuIconItem.Tag>
+                            </mah:HamburgerMenuIconItem>
+
+                            <mah:HamburgerMenuIconItem Label="Номера">
+                                <mah:HamburgerMenuIconItem.Icon>
+                                    <mdix:PackIcon Kind="Hotel"/>
+                                </mah:HamburgerMenuIconItem.Icon>
+
+                                <mah:HamburgerMenuIconItem.Tag>
+                                    <pages:HotelRoomsUserControl/>
+                                </mah:HamburgerMenuIconItem.Tag>
+                            </mah:HamburgerMenuIconItem>
+
+                            <mah:HamburgerMenuIconItem Label="Графики уборки">
+                                <mah:HamburgerMenuIconItem.Icon>
+                                    <mdix:PackIcon Kind="CalendarWeek"/>
+                                </mah:HamburgerMenuIconItem.Icon>
+
+                                <mah:HamburgerMenuIconItem.Tag>
+                                    <pages:WeeklySchedulesUserControl/>
+                                </mah:HamburgerMenuIconItem.Tag>
+                            </mah:HamburgerMenuIconItem>
+
+                            <mah:HamburgerMenuSeparatorItem/>
+                            <mah:HamburgerMenuIconItem Label="Отчеты">
+                                <mah:HamburgerMenuIconItem.Icon>
+                                    <mdix:PackIcon Kind="FileReport"/>
+                                </mah:HamburgerMenuIconItem.Icon>
+
+                                <mah:HamburgerMenuIconItem.Tag>
+                                    <pages:ReportsUserControl/>
+                                </mah:HamburgerMenuIconItem.Tag>
+                            </mah:HamburgerMenuIconItem>
+                            <mah:HamburgerMenuSeparatorItem/>
+
+                        </mah:HamburgerMenuItemCollection>
+                    </mah:HamburgerMenu.ItemsSource>
+
+
+                    <mah:HamburgerMenu.OptionsItemsSource>
+                        <mah:HamburgerMenuItemCollection>
+                            <mah:HamburgerMenuIconItem Label="О приложении">
+                                <mah:HamburgerMenuIconItem.Icon>
+                                    <mdix:PackIcon Kind="InfoCircle"/>
+                                </mah:HamburgerMenuIconItem.Icon>
+
+                                <mah:HamburgerMenuIconItem.Tag>
+                                    <pages:InfoUserControl/>
+                                </mah:HamburgerMenuIconItem.Tag>
+                            </mah:HamburgerMenuIconItem>
+
+                            <mah:HamburgerMenuIconItem Label="Настройки">
+                                <mah:HamburgerMenuIconItem.Icon>
+                                    <mdix:PackIcon Kind="Settings"/>
+                                </mah:HamburgerMenuIconItem.Icon>
+
+                                <mah:HamburgerMenuIconItem.Tag>
+                                    <pages:SettingsUserControl/>
+                                </mah:HamburgerMenuIconItem.Tag>
+                            </mah:HamburgerMenuIconItem>
+                        </mah:HamburgerMenuItemCollection>
+                    </mah:HamburgerMenu.OptionsItemsSource>
+
+
+                    <mah:HamburgerMenu.ContentTemplate>
+                        <DataTemplate>
+                            <Grid x:Name="ContentGrid">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="48"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <Border
+                                    Grid.Row="0"
+                                    Margin="-1,0,-1,0"
+                                    Background="#7A7A7A">
+                                    <TextBlock
+                                        x:Name="Header"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="24"
+                                        Foreground="White"
+                                        Text="{Binding Label}"/>
+                                </Border>
+
+                                <mah:TransitioningContentControl
+                                    Grid.Row="1"
+                                    Content="{Binding}"
+                                    RestartTransitionOnContentChange="True"
+                                    Transition="{Binding SelectedTransitionType, Mode=TwoWay}">
+
+                                    <mah:TransitioningContentControl.Resources>
+                                        <DataTemplate DataType="{x:Type mah:HamburgerMenuIconItem}">
+
+                                            <ContentControl
+                                                Content="{Binding Tag, Mode=OneWay}"
+                                                Focusable="True"
+                                                IsTabStop="False"/>
+
+                                        </DataTemplate>
+                                    </mah:TransitioningContentControl.Resources>
+                                </mah:TransitioningContentControl>
+                            </Grid>
+                        </DataTemplate>
+                    </mah:HamburgerMenu.ContentTemplate>
+
+                </mah:HamburgerMenu>
+
+                <mdix:Snackbar x:Name="MainSnackbar" MessageQueue="{Binding SnackbarMessageQueue}"/>
+            </Grid>
+        </mdix:DialogHost>
+    </Window.Content>
+</Window>
